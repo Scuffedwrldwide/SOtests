@@ -25,6 +25,7 @@ def compare_files(file1, file2):
         diff = difflib.unified_diff(f1.readlines(), f2.readlines(), fromfile=file1, tofile=file2)
         diff = ''.join(diff)
         if diff:
+            print(f"\033[1mTesting {f1} \033[0m")
             for line in diff.splitlines():
                 if line.startswith(' '):
                     print(line)
@@ -52,10 +53,10 @@ def process_files():
     for file in files:
         if file.endswith(".out"):
             total += 1
-            print(f"\033[1mTesting {file} \033[0m")
             try:
                 if compare_files(f"{rpath}/{file}", f"{rpath}/{file.replace('.out', '.result')}"):
                     passed += 1
+                else: print("\n")
             except FileNotFoundError as e: print(f"Error: {e}")
             print("\n")
     if passed == total:
